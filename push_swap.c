@@ -6,7 +6,7 @@
 /*   By: raatar <raatar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 15:07:22 by raatar            #+#    #+#             */
-/*   Updated: 2025/12/12 21:46:35 by raatar           ###   ########.fr       */
+/*   Updated: 2025/12/16 06:33:32 by raatar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,54 @@ void print(t_stack *a)
 		printf("\n");
 }
 
+void print_index(t_stack *a)
+{
+		t_stack	*temp = a;
+		while(temp)
+		{
+			printf(" %d",temp->index);
+			temp = temp->next;
+		}
+		printf("\n");
+}
+
+int calcul_rotations(t_stack **a,t_stack **b,int val)
+{
+	int	instructions[2];
+
+	while(*b)
+	{
+		
+	}
+}
+
 void	push_swap(t_stack **a,int length)
 {
-	t_stack	*b;
-	int		temp;
+	t_stack	*b = NULL;
+	t_stack *LIS = lengthOfLIS(*a);
+	t_stack *temp = ft_lstcpy(*a);
+	int median = 0;
 
-	b = NULL;
+	fake_sort(&temp);
+	median = index_search(temp,length/2) ->val;
 
-	while()
+	while(ft_lstsize(*a) > ft_lstsize(LIS))
+	{
+		if(!ft_lstcontains(LIS,(*a)->val))
+		{
+			if((*a)->val >= median)
+				stack_operations(a,&b,1);
+			else
+			{
+				stack_operations(a,&b,1);
+				stack_operations(a,&b,40);
+			}
+		}
+	}
+	while(b)
+	{
 
+	}
 }
 // void	push_swap(t_stack **a)
 // {
@@ -116,10 +155,14 @@ int	main(int argc, char **argv)
 			}
 		}
 		print(a);
+		print_index(a);
 		// push_swap(&a);
-		stack_operations(&a,NULL,3);
+		// stack_operations(&a,NULL,3);
+		printf("(%d)\n",index_search(a,3)->val);
+		fake_sort(&a);
 		print(a);
-
+		print_index(a);		
+		ft_lstclear(&a);
 	}
 	return (0);
 }
