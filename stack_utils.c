@@ -6,7 +6,7 @@
 /*   By: raatar <raatar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 15:34:06 by raatar            #+#    #+#             */
-/*   Updated: 2025/12/16 06:15:11 by raatar           ###   ########.fr       */
+/*   Updated: 2025/12/16 08:05:37 by raatar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,8 @@ void	ft_pop(t_stack **lst)
 	if (lst == NULL || *lst == NULL)
 		return ;
 	ptr = (*lst)->next;
-	ptr -> prev = NULL;
+	if(ptr)
+		ptr -> prev = NULL;
 	free(*lst);
 	*lst = ptr;
 }

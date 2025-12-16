@@ -6,7 +6,7 @@
 /*   By: raatar <raatar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 15:07:22 by raatar            #+#    #+#             */
-/*   Updated: 2025/12/16 06:33:32 by raatar           ###   ########.fr       */
+/*   Updated: 2025/12/16 10:00:23 by raatar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,76 @@ void print_index(t_stack *a)
 		printf("\n");
 }
 
-int calcul_rotations(t_stack **a,t_stack **b,int val)
+static int	sum_cost(int cost_a,int cost_b)
 {
-	int	instructions[2];
+	if(cost_b >= 0)
+		return (cost_a + cost_b);
+	else
+		return (cost_a - cost_b);
+}
 
+int calcul_operations(t_stack **a,t_stack **b)
+{
+	t_stack	*ptra = NULL;
+	t_stack	*ptrb = *b;
+
+	int	*cost_a = NULL;
+	int	*cost_b = NULL;
+	int	chosen_index = 0;
+	int i = 0;
+	int j = 0;
+	int min_move = 0;
+
+	cost_a = malloc(ft_lstsize(*b) * sizeof(int));
+	cost_b = malloc(ft_lstsize(*b) * sizeof(int));
+	if(!cost_a || !cost_b) // dont forget to free 
+		return (-1);
 	while(*b)
 	{
-		
+		i = 0;
+		index_assign(b);
+		ptrb = *b;
+		while(ptrb)
+		{
+			ptra = *a;
+			if(i <= ft_lstsize(*b) / 2)
+				cost_b[i] = i;
+			else
+				cost_b[i] = -(i - (ft_lstsize(*b) / 2));
+			cost_a[i] = 0;
+			while(ptra && ptra->val < ptrb -> val)
+			{
+				cost_a[i]++;
+				ptra = ptra ->next;
+			}
+			ptrb = ptrb ->next;
+			i++;
+		}
+		j = 1;
+		min_move = sum_cost(cost_a[0],cost_b[0]);
+		chosen_index = 0;
+		while(j < i)
+		{
+			if(min_move > sum_cost(cost_a[j],cost_b[j]))
+			{
+				min_move = sum_cost(cost_a[j],cost_b[j]);
+				chosen_index = j;
+			}
+			j++;
+		}
+		while(cost_a[j] > 0 && cost_b[j] > 0)
+		{
+			stack_operations(a,b,33);
+			cost_a[j]--;
+			cost_b[j]--;
+		}
+		while(cost_a[j] > 0 && cost_b[j] > 0)
+		{
+			stack_operations(a,b,33);
+			cost_a[j]--;
+			cost_b[j]--;
+		}
+		//
 	}
 }
 
@@ -67,11 +130,13 @@ void	push_swap(t_stack **a,int length)
 				stack_operations(a,&b,40);
 			}
 		}
+		else
+			stack_operations(a,&b,3);
 	}
-	while(b)
-	{
-
-	}
+	
+	ft_lstclear(&b);
+	ft_lstclear(&LIS);
+	ft_lstclear(&temp);
 }
 // void	push_swap(t_stack **a)
 // {
@@ -158,10 +223,11 @@ int	main(int argc, char **argv)
 		print_index(a);
 		// push_swap(&a);
 		// stack_operations(&a,NULL,3);
-		printf("(%d)\n",index_search(a,3)->val);
-		fake_sort(&a);
-		print(a);
-		print_index(a);		
+		// printf("(%d)\n",index_search(a,3)->val);
+		// fake_sort(&a);
+		// print(a);
+		// print_index(a);		
+		push_swap(&a,argc - 1);
 		ft_lstclear(&a);
 	}
 	return (0);
